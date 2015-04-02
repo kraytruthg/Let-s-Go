@@ -1,0 +1,8 @@
+<p class="pull-right">
+  [<%= link_to 'edit this trip', edit_trip_path(@trip) %>]
+</p>
+
+<%= render 'shared/content_title', title: @trip.name %>
+
+<%= image_tag @trip.cover.url if @trip.cover? %>
+

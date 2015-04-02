@@ -1,0 +1,37 @@
+<%= render 'shared/error_message', object: @trip %>
+
+<div class="well">
+  <%= form_for(@trip, html: { multipart: true }) do |f| %>
+    <div class='control-group'>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+    <div class='control-group'>
+      <%= f.label :start_date %>
+      <%= f.date_field :start_date %>
+    </div>
+    <div class='control-group'>
+      <%= f.label :end_date %>
+      <%= f.date_field :end_date %>
+    </div>
+
+    <div class='control-group'>
+      <%= f.label :cover %>
+      <%= image_tag @trip.cover.url if @trip.cover? %>
+      <%= f.file_field :cover, accept: 'image/jpeg,image/gif,image/png'%>
+    </div>
+
+    <br/>
+    <%= f.submit(@trip.new_record? ? 'Create Trip' : 'Update Trip' , class:'btn btn-primary') %>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $('#trip_cover').bind('change', function() {
+    size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+</script>
+
