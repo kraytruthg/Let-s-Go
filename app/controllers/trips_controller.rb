@@ -7,6 +7,7 @@ class TripsController < ApplicationController
 
   def create
     @trip = Trip.new(trip_params)
+    @trip.creator = current_user
     if @trip.save
       flash[:notice] = 'Your trip was created'
       redirect_to @trip
@@ -29,6 +30,10 @@ class TripsController < ApplicationController
     end
   end
 
+  def show
+    @posts = @trip.posts
+  end
+
   def index
     @trips = Trip.all
   end
@@ -39,6 +44,6 @@ class TripsController < ApplicationController
     end
 
     def set_trip
-      @trip = Trip.find(params[:id])
+      @trip = Trip.find_by(slug: params[:id])
     end
 end

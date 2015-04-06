@@ -1,0 +1,41 @@
+<%= render 'shared/error_message', object: @post %>
+
+<div class="well col-md-8">
+  <%= form_for([@trip, @post], html: { multipart: true }) do |f| %>
+    <div class='form-group'>
+      <%= f.label :title %>
+      <%= f.text_field :title, class:'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, class:'form-control'%>
+    </div>
+    <div class='form-group'>
+      <%= f.label :start_date %>
+      <%= f.date_field :start_date, class:'form-control' %>
+    </div>
+    <div class='form-group'>
+      <%= f.label :end_date %>
+      <%= f.date_field :end_date, class:'form-control' %>
+    </div>
+
+    <div class='form-group'>
+      <%= f.label :picture %>
+      <%= image_tag @post.picture.url if @post.picture? %>
+      <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png'%>
+    </div>
+
+    <br/>
+    <%= f.submit(@post.new_record? ? 'Create Post' : 'Update Post' , class:'btn btn-primary') %>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $('#post_picture').bind('change', function() {
+    size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+</script>
+

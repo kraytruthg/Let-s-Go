@@ -4,5 +4,9 @@
 
 <%= render 'shared/content_title', title: @trip.name %>
 
-<%= image_tag @trip.cover.url if @trip.cover? %>
+<div><%= link_to 'New Post', new_trip_post_path(@trip) %></div>
+
+<div id='pins' class="transitions-enabled">
+  <%= render @posts %>
+</div>
 

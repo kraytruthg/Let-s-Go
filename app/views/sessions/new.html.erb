@@ -1,16 +1,17 @@
 <%= render 'shared/content_title', title: 'Login' %>
 
-<div class="well">
+<div class="well col-md-8">
   <%= form_tag('/login') do %>
     <div class='control-group'>
-      <%= label_tag(:username) %>
-      <%= text_field_tag(:username) %>
+      <%= label_tag :username %>
+      <%= text_field_tag :username, nil, class: 'form-control' %>
     </div>
 
     <div class='control-group'>
-      <%= label_tag(:password) %>
-      <%= password_field_tag(:password) %>
+      <%= label_tag :password %>
+      <%= password_field_tag :password, nil, class: 'form-control' %>
     </div>
+    <br/>
     <%= submit_tag 'Login', class: 'btn btn-success' %>
   <% end %>
 </div>

@@ -15,6 +15,30 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
+ .navbar .nav > li > a.brand {
+  padding-left: 0px;
+}
+
+.quiet {
+  color: #ababab;
+}
+
+div.nav_item {
+  margin-left: 25px;
+  float: left;
+}
+
+.label, .badge  {
+  a, a:hover, a:focus {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+div.comment_votes {
+  padding: 10px;
+}
+
 body {
   background: #E9E9E9;
 }
@@ -52,7 +76,7 @@ nav {
     h2 {
       font-size: 22px;
       margin: 0;
-      padding: 25px 10px;
+      padding: 5px 10px;
       a {
         color: #474747;
       }

@@ -1,22 +1,13 @@
-<div class="navbar-brand">
-  <%= link_to "Let's go!", root_path %>
+<%= link_to "Let's go!", root_path, class:'navbar-brand'  %>
+<div class="container-fluid">
+  <div id="navbar" class="navbar-collapse collapse ">
+    <ul class="nav navbar-nav">
+      <%= render 'layouts/trip_menu' %>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <%= render 'layouts/user_menu' %>
+    </ul>
+  </div>
 </div>
-<div class='btn-group nav_item'>
-  <%= link_to '#', class: 'btn btn-small dropdown-toggle', 'data-toggle' => 'dropdown' do  %>
-    Trips <span class='caret'></span>
-  <% end %>
 
-  <ul class="dropdown-menu">
-    <% Trip.all.each do |trip| %>
-      <li><%= link_to trip.name, trip %></li>
-    <% end %>
-    <li>
-      <%= link_to(new_trip_path) do%>
-        <i class='icon-plus'></i>
-        New Trip
-      <% end %>
-    </li>
-  </ul>
-</div>
-<%= render 'layouts/user_menu' %>
 
