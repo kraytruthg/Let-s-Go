@@ -7,6 +7,7 @@ class TripsController < ApplicationController
 
   def create
     @trip = Trip.new(trip_params)
+    @trip.start_date = @trip.end_date = Date.current
     @trip.creator = current_user
     if @trip.save
       flash[:notice] = 'Your trip was created'
@@ -32,6 +33,11 @@ class TripsController < ApplicationController
 
   def show
     @posts = @trip.posts
+    if params[:date]
+      select_date = params[:date].to_datetime
+      @posts = @posts.where('start_date <= ?', select_date)
+      @posts = @posts.where('end_date   >= ?', select_date)
+    end
   end
 
   def index

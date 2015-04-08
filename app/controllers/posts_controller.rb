@@ -4,7 +4,8 @@ class PostsController < ApplicationController
 
   def new
     @post = @trip.posts.build
-    @post.start_date = @post.end_date = Date.current
+    @post.start_date = @trip.start_date
+    @post.end_date   = @trip.end_date
   end
 
   def create
@@ -23,6 +24,18 @@ class PostsController < ApplicationController
 
   end
 
+  def star
+    post = Post.find_by(slug: params[:post_id])
+    if post.status == 'active'
+      post.status = nil
+    else
+      post.status = 'active'
+    end
+    post.save
+
+    redirect_to :back
+  end
+
   def update
     @post.update(post_params)
     if @post.save
@@ -34,7 +47,7 @@ class PostsController < ApplicationController
   end
 
   def show
-
+    @comment = Comment.new
   end
 
   private

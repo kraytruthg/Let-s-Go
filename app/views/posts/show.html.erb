@@ -1,5 +1,38 @@
 <p class="pull-right">
-  [<%= link_to 'edit this post', edit_trip_post_path(@trip, @post) %>]
+  <% if current_user == @post.creator %>
+    <%= link_to 'Edit', edit_trip_post_path(@trip, @post) %> |
+  <% end %>
+  <%= link_to 'Back', trip_path(@trip) %>
 </p>
-
 <%= render 'shared/content_title', title: @post.title %>
+
+<div class="row">
+  <div class="col-md-8 ">
+    <%= image_tag(@post.picture, class:"img-rounded img-responsive" )%>
+
+    <p class="description">
+      <%= simple_format(@post.description) %>
+    </p>
+    <hr/>
+    <p>
+      <strong>
+        Posted by <%= @post.creator.username %>
+      </strong>
+    </p>
+
+    <hr/>
+    <h5>Comments:</h5>
+    <%= render @post.reload.comments , show_post: false %>
+    <% if logged_in? %>
+      <%= form_for [@trip, @post, @comment] do |f| %>
+        <%= render 'shared/error_message', object: @comment %>
+        <div class="form-group">
+          <%= f.label :body, 'Leave a comment' %>
+          <%= f.text_area :body , { rows: 3, class: 'form-control span4'} %>
+        </div>
+        <%= f.submit 'Create comment' , class:"btn btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>

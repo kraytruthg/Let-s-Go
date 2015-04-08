@@ -1,12 +1,35 @@
 <p class="pull-right">
-  [<%= link_to 'edit this trip', edit_trip_path(@trip) %>]
+  <% if current_user == @trip.creator %>
+    <%= link_to 'Edit this trip', edit_trip_path(@trip) %> |
+  <% end %>
+  <%= link_to 'Back', trips_path %>
 </p>
 
 <%= render 'shared/content_title', title: @trip.name %>
 
-<div><%= link_to 'New Post', new_trip_post_path(@trip) %></div>
 
-<div id='pins' class="transitions-enabled">
-  <%= render @posts %>
+<div class="pull-left dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Select Date
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li><%= link_to 'none', trip_path(@trip) %></li>
+    <% @trip.start_date.upto(@trip.end_date).each do |date| %>
+      <li><%= link_to format_date(date), trip_path(@trip, date: date) %></li>
+    <% end %>
+  </ul>
 </div>
+<hr/>
+<div><%= link_to 'New Post', new_trip_post_path(@trip) %></div>
+</div>
+
+<% if @posts %>
+  <div id='pins' class="transitions-enabled">
+    <%= render @posts %>
+  </div>
+<% else %>
+  <div>No post yet..</div>
+<% end %>
+
 
