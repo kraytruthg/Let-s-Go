@@ -1,10 +1,14 @@
 <p class="pull-right">
   <% if current_user == @post.creator %>
-    <%= link_to 'Edit', edit_trip_post_path(@trip, @post) %> |
+    <%= link_to edit_trip_post_path(@trip, @post) do %>
+      <i class="glyphicon glyphicon-pencil"></i>
+      Edit This Post
+    <% end %>
   <% end %>
-  <%= link_to 'Back', trip_path(@trip) %>
 </p>
 <%= render 'shared/content_title', title: @post.title %>
+<%= render 'shared/tags', tags: @post.tags, trip: @trip %>
+<hr/>
 
 <div class="row">
   <div class="col-md-8 ">
@@ -21,14 +25,13 @@
     </p>
 
     <hr/>
-    <h5>Comments:</h5>
+
     <%= render @post.reload.comments , show_post: false %>
     <% if logged_in? %>
       <%= form_for [@trip, @post, @comment] do |f| %>
         <%= render 'shared/error_message', object: @comment %>
         <div class="form-group">
-          <%= f.label :body, 'Leave a comment' %>
-          <%= f.text_area :body , { rows: 3, class: 'form-control span4'} %>
+          <%= f.text_area :body , rows: 3, class: 'form-control span4', placeholder: 'Add a comment...' %>
         </div>
         <%= f.submit 'Create comment' , class:"btn btn-primary" %>
       <% end %>

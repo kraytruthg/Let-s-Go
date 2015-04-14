@@ -1,5 +1,6 @@
 class TripsController < ApplicationController
-  before_action :set_trip, only: [:show, :edit, :update]
+  before_action :set_trip, only: [:show, :edit, :update, :user_list]
+  before_action :require_login_as_trip_member, except: [:index]
 
   def new
     @trip = Trip.new
@@ -38,10 +39,17 @@ class TripsController < ApplicationController
       @posts = @posts.where('start_date <= ?', select_date)
       @posts = @posts.where('end_date   >= ?', select_date)
     end
+
+    if params[:tag]
+      tag = ActsAsTaggableOn::Tag.find_by(name: params[:tag])
+      @posts = @posts.select{ |p| p.tags.include?(tag) }
+    end
   end
 
   def index
-    @trips = Trip.all
+    if logged_in?
+      @trips = current_user.trips
+    end
   end
 
   private
@@ -51,5 +59,9 @@ class TripsController < ApplicationController
 
     def set_trip
       @trip = Trip.find_by(slug: params[:id])
+    end
+
+    def require_login_as_trip_member
+      require_login
     end
 end

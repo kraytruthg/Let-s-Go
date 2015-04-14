@@ -17,6 +17,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'carrierwave',             '0.10.0'
 gem 'mini_magick',             '3.8.0'
 gem 'fog',                     '1.23.0'
+gem 'acts-as-taggable-on',     '~> 3.4'
 
 group :doc do
   gem 'sdoc', require: false

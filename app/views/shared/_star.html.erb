@@ -1,9 +1,9 @@
 <% if post.status == 'active' %>
   <%= link_to trip_post_star_path(@trip, post) do  %>
-    <i class='glyphicon glyphicon-star'></i>
+    <i class='glyphicon glyphicon-star like'></i>
   <% end %>
 <% else %>
   <%= link_to trip_post_star_path(@trip, post) do  %>
-    <i class='glyphicon glyphicon-star-empty'></i>
+    <i class='glyphicon glyphicon-star-empty like'></i>
   <% end %>
 <% end %>

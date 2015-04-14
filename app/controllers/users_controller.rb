@@ -26,6 +26,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def autocomplete
+    @users = User.order(:username).where("username LIKE ?", "%#{params[:term]}%")
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: @users.map(&:username)
+      }
+    end
+  end
+
   private
 
   def set_user

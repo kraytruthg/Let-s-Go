@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_trip
   before_action :set_post, only:[:edit, :update, :show]
+  before_action :set_tag_autocomplete, only:[:new, :edit]
 
   def new
     @post = @trip.posts.build
@@ -13,15 +14,13 @@ class PostsController < ApplicationController
     @post.creator = current_user
 
     if @post.save
+      @post.tag_ids = []
+      @trip.tag(@post, with: params[:post][:tag_list], on: :tags)
       flash[:notice] = 'Your post was added'
       redirect_to @trip
     else
       render 'new'
     end
-  end
-
-  def edit
-
   end
 
   def star
@@ -36,9 +35,27 @@ class PostsController < ApplicationController
     redirect_to :back
   end
 
+  def like
+    post = Post.find_by(slug: params[:post_id])
+    if post.users.include?(current_user)
+      post.users.delete(current_user)
+    else
+      post.users << current_user
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render 'shared/like', :locals => { object: post} }
+    end
+  end
+
+  def edit; end
+
   def update
     @post.update(post_params)
     if @post.save
+      @post.tag_list = []
+      @trip.tag(@post, with: params[:post][:tag_list], on: :tags)
       flash[:notice] = "Post was updated"
       redirect_to trip_post_path(@trip, @post)
     else
@@ -57,6 +74,10 @@ class PostsController < ApplicationController
 
     def set_post
       @post = Post.find_by(slug: params[:id])
+    end
+
+    def set_tag_autocomplete
+      @autocomplete_items = @trip.owned_tags
     end
 
     def post_params

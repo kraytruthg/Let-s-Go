@@ -1,22 +1,39 @@
 <div class="box panel panel-default">
-  <%= link_to trip_post_path(@trip,post) do %>
-    <% if post.picture? %>
-      <%= image_tag post.picture.url %>
-    <% else %>
-      <%= image_tag '/NoImage.jpg' %>
+  <div class="show-image">
+    <%= link_to trip_post_path(@trip,post) do %>
+      <% if post.picture? %>
+        <%= image_tag post.picture.url %>
+      <% else %>
+        <%= image_tag '/NoImage.jpg' %>
+      <% end %>
     <% end %>
-    <div class="panel-body"></div>
+    <div class="btn-group like" role="group" aria-label="...">
+      <%= link_to trip_post_like_path(@trip, post), remote: true, class:"btn btn-default" do %>
+        <div id="like_<%= post.slug %>">
+          <% if post.users.include?(current_user) %>
+            Unlike
+          <% else %>
+            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Like
+          <% end %>
+        </div>
+      <% end %>
+      <button type="button" id="likes" class="btn btn-default">
+        <div id="likes_count_<%= post.slug %>"><%= post.users.size %></div>
+      </button>
+    </div>
+  </div>
+  <div class="title">
     <h2>
-      <%= post.title %>
+      <%= link_to post.title, trip_post_path(@trip, post) %>
     </h2>
-  <% end %>
+  </div>
+
   <div class="period">
     <i class="glyphicon glyphicon-time"></i>
     <%= show_period(post) %>
   </div>
-  <p class="user">
-    <%= render 'shared/star', post: post %>
-    Submitted by <%= post.creator.username %>
-  </p>
+  <div class="taglist">
+    <%= render 'shared/tags', tags: post.tags, trip: @trip %>
+  </div>
 </div>
 

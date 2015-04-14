@@ -1,4 +1,13 @@
-<div id='pins' class="transitions-enabled">
-  <%= render @trips %>
-</div>
+<% if logged_in? %>
+  <% if @trips.empty? %>
+    No trips yet..? Let's plan a trip!
+    <%= link_to 'New Trip', new_trip_path, class:"btn" %>
+  <% else %>
+    <div id='pins' class="transitions-enabled">
+      <%= render @trips %>
+    </div>
+  <% end %>
+<% else %>
+  Please login first
+<% end %>
 

@@ -58,6 +58,13 @@ nav {
       }
     }
   }
+  #trip_name{
+    color: #2F5597;
+    font-size: 18px;
+    font-family: Comic Sans MS;
+    font-style: italic;
+    font-weight: bold;
+  }
 }
 
 #pins {
@@ -73,24 +80,50 @@ nav {
       max-width: 100%;
       height: auto;
     }
+    :hover img{
+        opacity:0.5;
+    }
+    div.show-image:hover .like {
+        display: block;
+    }
+    div.like {
+        position:absolute;
+        display:none;
+    }
+    div.like {
+        top:0;
+        left:0;
+    }
+    div.show-image button.who-like {
+        top:0;
+        left:79%;
+    }
     h2 {
       font-size: 22px;
       margin: 0;
       padding: 5px 10px;
-      a {
-        color: #474747;
+      .favorite {
+        margin: 0 0 0 20px;
+        float: left;
       }
+    }
+    .title {
+      margin-top: 10px;
     }
     .period {
       color: #474747;
     }
-    .user {
+    .taglist {
       font-size: 12px;
-      border-top: 1px solid #EAEAEA;
+      border-top: 1px;
       padding: 15px;
       margin: 0;
     }
-
+    .vote{
+        margin: 0 0 0 10px;
+        float: left;
+        color: #FF0033;
+    }
   }
 }
 

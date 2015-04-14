@@ -3,8 +3,28 @@
   <div id="navbar" class="navbar-collapse collapse ">
     <ul class="nav navbar-nav">
       <%= render 'layouts/trip_menu' %>
+      <% if @trip %>
+        <li>
+          <%= link_to @trip.name, trip_path(@trip), id: "trip_name" %>
+        </li>
+        <li>
+          <%= link_to new_trip_post_path(@trip) do %>
+            <i class="glyphicon glyphicon-plus"></i>
+            New Post
+          <% end %>
+        </li>
+        <%= render 'layouts/select_date', trip: @trip %>
+      <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
+      <% if @trip %>
+        <li>
+          <%= link_to edit_trip_path(@trip) do %>
+            <i class="glyphicon glyphicon-pencil"></i>
+            Edit This Trip
+          <% end %>
+        </li>
+      <% end %>
       <%= render 'layouts/user_menu' %>
     </ul>
   </div>
