@@ -1,6 +1,7 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :edit, :update]
-  before_action :require_login_as_trip_member, only: [:show, :edit, :update]
+  before_action :require_login_as_trip_member, only: [:show]
+  before_action :require_creator, only: [:edit, :update]
 
   def new
     @trip = Trip.new
@@ -19,9 +20,7 @@ class TripsController < ApplicationController
     end
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def update
     @trip.update(trip_params)
@@ -78,5 +77,12 @@ class TripsController < ApplicationController
           @trip.users.push user
         end
       }
+    end
+
+    def require_creator
+      if @trip.creator != current_user
+        flash[:error] = "You can't do that!"
+        redirect_to @trip
+      end
     end
 end

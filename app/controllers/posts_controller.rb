@@ -3,6 +3,8 @@ class PostsController < ApplicationController
   before_action :require_login_as_trip_member
   before_action :set_post, only:[:edit, :update, :show]
   before_action :set_tag_autocomplete, only:[:new, :edit]
+  before_action :require_creator, only:[:edit, :update]
+
   def new
     @post = @trip.posts.build
     @post.start_date = @trip.start_date
@@ -89,5 +91,12 @@ class PostsController < ApplicationController
 
     def post_params
       params.require(:post).permit(:title, :description, :start_date, :end_date, :picture)
+    end
+
+    def require_creator
+      if @post.creator != current_user
+        flash[:error] = "You can't do that!"
+        redirect_to @trip
+      end
     end
 end
