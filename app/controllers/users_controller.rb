@@ -10,7 +10,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = 'You are registered'
-      session[:user_id] = @user.id
+      session[:user_id] = @user.slug
+      demo_trip = Trip.find_by(slug: 'demo-trip') # Set default demo trip to new registered user
+      @user.trips.push(demo_trip)
       redirect_to root_path
     else
       render 'new'

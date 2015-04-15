@@ -4,8 +4,10 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <% current_user.trips.each do |trip| %>
-      <li><%= link_to trip.name, trip %></li>
+    <% if logged_in? %>
+      <% current_user.trips.each do |trip| %>
+        <li><%= link_to trip.name, trip %></li>
+      <% end %>
     <% end %>
     <li class="divider"></li>
     <li>

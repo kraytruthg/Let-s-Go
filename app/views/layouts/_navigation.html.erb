@@ -17,7 +17,7 @@
       <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <% if @trip && !@trip.new_record? %>
+      <% if @trip && !@trip.new_record? && !@trip.creator == current_user %>
         <li>
           <%= link_to edit_trip_path(@trip) do %>
             <i class="glyphicon glyphicon-pencil"></i>
