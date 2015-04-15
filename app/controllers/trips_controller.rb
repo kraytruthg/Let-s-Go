@@ -4,11 +4,11 @@ class TripsController < ApplicationController
 
   def new
     @trip = Trip.new
+    @trip.start_date = @trip.end_date = Date.current
   end
 
   def create
     @trip = Trip.new(trip_params)
-    @trip.start_date = @trip.end_date = Date.current
     @trip.creator = current_user
     if @trip.save
       update_member_list
