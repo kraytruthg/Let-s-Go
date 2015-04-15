@@ -16,9 +16,9 @@
       <%= f.date_field :end_date, class:'form-control' %>
     </div>
 
-    <div class="form-group">
-      <%= f.label :members %>
-      <%= f.text_field :user_list, class:'form-control' %>
+    <div class='input-row'>
+      <%= f.hidden_field :member_list, autocomplete:"off" %>
+      <%= text_field_tag 'member_input', nil, class: "tm-input", placeholder: "Trip Members", autocomplete:"on" %>
     </div>
 
     <div class='current_image'>
@@ -33,6 +33,8 @@
   <% end %>
 </div>
 
+<%= javascript_tag "var members = #{ @trip.member_list.to_json };" %>
+<%= javascript_tag "var autocomplete_items = #{ User.all.to_json(:only => :username) };" %>
 
 <script type="text/javascript">
   $('#trip_cover').bind('change', function() {
@@ -41,5 +43,26 @@
       alert('Maximum file size is 5MB. Please choose a smaller file.');
     }
   });
-</script>
 
+  var user_list = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('username'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: autocomplete_items
+  });
+
+  user_list.initialize();
+
+  var memberApi = jQuery(".tm-input").tagsManager({
+    prefilled: members,
+    hiddenTagListName: 'trip[member_list]',
+    hiddenTagListId: 'trip_member_list',
+  });
+  jQuery(".tm-input").typeahead(null, {
+    name: 'user_list',
+    displayKey: 'username',
+    source: user_list.ttAdapter()
+  }).on('typeahead:selected', function (e, d) {
+      memberApi.tagsManager("pushTag", d.username);
+  });
+
+</script>

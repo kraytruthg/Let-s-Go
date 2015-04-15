@@ -1,6 +1,6 @@
 class TripsController < ApplicationController
-  before_action :set_trip, only: [:show, :edit, :update, :user_list]
-  before_action :require_login_as_trip_member, except: [:index]
+  before_action :set_trip, only: [:show, :edit, :update]
+  before_action :require_login_as_trip_member, only: [:show, :edit, :update]
 
   def new
     @trip = Trip.new
@@ -11,6 +11,7 @@ class TripsController < ApplicationController
     @trip.start_date = @trip.end_date = Date.current
     @trip.creator = current_user
     if @trip.save
+      update_member_list
       flash[:notice] = 'Your trip was created'
       redirect_to @trip
     else
@@ -25,6 +26,7 @@ class TripsController < ApplicationController
   def update
     @trip.update(trip_params)
     if @trip.save
+      update_member_list
       flash[:notice] = "Trip was updated"
       redirect_to @trip
     else
@@ -62,6 +64,19 @@ class TripsController < ApplicationController
     end
 
     def require_login_as_trip_member
-      require_login
+      if !@trip.users.include?(current_user) || !logged_in?
+        flash[:error] = 'You are not trip member'
+        redirect_to root_path
+      end
+    end
+
+    def update_member_list
+      member_list = params[:trip][:member_list].split(',')
+      @trip.users = []
+      member_list.each{ |username|
+        if user = User.where('lower(username) = ?', username.downcase).first
+          @trip.users.push user
+        end
+      }
     end
 end

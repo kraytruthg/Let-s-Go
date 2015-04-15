@@ -16,7 +16,7 @@ class Trip < ActiveRecord::Base
 
   sluggable_column :name
 
-  def user_list
+  def member_list
     self.users.map(&:username)
   end
 

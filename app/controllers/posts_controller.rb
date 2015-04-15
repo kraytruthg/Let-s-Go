@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_trip
+  before_action :require_login_as_trip_member
   before_action :set_post, only:[:edit, :update, :show]
   before_action :set_tag_autocomplete, only:[:new, :edit]
-
   def new
     @post = @trip.posts.build
     @post.start_date = @trip.start_date
@@ -70,6 +70,13 @@ class PostsController < ApplicationController
   private
     def set_trip
       @trip = Trip.find_by(slug: params[:trip_id])
+    end
+
+    def require_login_as_trip_member
+      if !@trip.users.include?(current_user) || !logged_in?
+        flash[:error] = 'You are not trip member'
+        redirect_to root_path
+      end
     end
 
     def set_post
