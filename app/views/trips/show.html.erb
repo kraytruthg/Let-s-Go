@@ -1,7 +1,7 @@
-<% if @posts %>
-  <div id='pins' class="transitions-enabled">
+<div id='pins' class="transitions-enabled">
+  <% if @posts.empty? %>
+    <%= render Post.new_post %>
+  <% else %>
     <%= render @posts %>
-  </div>
-<% else %>
-  <div>No post yet..</div>
-<% end %>
+  <% end %>
+</div>

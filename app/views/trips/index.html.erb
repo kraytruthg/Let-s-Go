@@ -1,12 +1,8 @@
 <% if logged_in? %>
-  <% if @trips.empty? %>
-    No trips yet..? Let's plan a trip!
-    <%= link_to 'New Trip', new_trip_path, class:"btn" %>
-  <% else %>
-    <div id='pins' class="transitions-enabled">
-      <%= render @trips %>
-    </div>
-  <% end %>
+  <div id='pins' class="transitions-enabled">
+    <%= render @trips %>
+    <%= render Trip.new_trip %>
+  </div>
 <% else %>
   <%= render 'static_pages/hello' %>
 <% end %>

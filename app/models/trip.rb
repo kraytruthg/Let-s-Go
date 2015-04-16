@@ -16,8 +16,13 @@ class Trip < ActiveRecord::Base
 
   sluggable_column :name
 
+  NEW_TRIP_NAME = "New Trip"
   def member_list
-    self.users.map(&:username)
+    members = self.users.map(&:username)
+  end
+
+  def self.new_trip
+    Trip.new(name: NEW_TRIP_NAME, start_date: Date.current, end_date: Date.current )
   end
 
   private

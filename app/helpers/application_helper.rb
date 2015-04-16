@@ -18,4 +18,12 @@ module ApplicationHelper
       "#{format_date(obj.start_date)} ~ #{format_date(obj.end_date)}"
     end
   end
+
+  def show_or_create_post(trip, post)
+    if post.title == Post::NEW_POST_TITLE
+      new_trip_post_path(trip)
+    else
+      trip_post_path(trip,post)
+    end
+  end
 end

@@ -77,12 +77,15 @@ class TripsController < ApplicationController
           @trip.users.push user
         end
       }
+      if !@trip.users.include?(current_user)
+        @trip.users.push(current_user)
+      end
     end
 
     def require_creator
       if @trip.creator != current_user
         flash[:error] = "You can't do that!"
-        redirect_to @trip
+        redirect_to @tripπ
       end
     end
 end

@@ -1,9 +1,13 @@
 <div class="box panel panel-default">
-  <%= link_to trip do %>
-    <%= image_tag trip.cover.url %>
+  <%= link_to trip.name == Trip::NEW_TRIP_NAME ? new_trip_path : trip do %>
+    <% if trip.cover? %>
+      <%= image_tag trip.cover.url %>
+    <% else %>
+      <%= image_tag '/NoImage.jpg' %>
+    <% end %>
     <div class="panel-body"></div>
     <h2><%= trip.name %></h2>
   <% end %>
-  <p class="user">Submitted by <%= trip.creator.username %></p>
+  <p class="user">Submitted by <%= trip.creator ? trip.creator.username : current_user.username %></p>
 </div>
 
