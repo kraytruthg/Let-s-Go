@@ -11,7 +11,6 @@ class Trip < ActiveRecord::Base
   validates :name, presence: true
   validates :start_date, presence: true
   validates :start_date, presence: true
-  validates :cover, presence: true
   validate :cover_size
 
   sluggable_column :name
