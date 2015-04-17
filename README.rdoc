@@ -1,1 +1,10 @@
-This is designed for discussing travel plan with Pinterest like layout. 
+This app is designed for discussing travel plan with friends.
+
+- Pinterest like layout.
+- Each trip has its own tag library.
+- Only trip owner can manage trip members.
+- Autocomplete for tag input, no more worry for mistyping.
+
+Demo site: https://ancient-tor-1610.herokuapp.com
+
+
