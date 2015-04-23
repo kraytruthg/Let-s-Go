@@ -4,8 +4,8 @@ class Post < ActiveRecord::Base
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   belongs_to :trip
   has_many :comments
-  has_many :user_posts
-  has_many :users, through: :user_posts
+  has_many :likes
+  has_many :likers, through: :likes
 
   mount_uploader :picture, PictureUploader
   sluggable_column :title

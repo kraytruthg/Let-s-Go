@@ -11,7 +11,7 @@
       <div class="btn-group like" role="group" aria-label="...">
         <%= link_to trip_post_like_path(@trip, post), remote: true, class:"btn btn-default" do %>
           <div id="like_<%= post.slug %>">
-            <% if post.users.include?(current_user) %>
+            <% if post.likers.include?(current_user) %>
               Unlike
             <% else %>
               <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Like
@@ -19,7 +19,7 @@
           </div>
         <% end %>
         <button type="button" id="likes" class="btn btn-default">
-          <div id="likes_count_<%= post.slug %>"><%= post.users.size %></div>
+          <div id="likes_count_<%= post.slug %>"><%= post.likers.size %></div>
         </button>
       </div>
     <% end %>

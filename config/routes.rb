@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :user
+
   resources :users, only: [:show, :create, :edit, :update] do
     collection do
       get 'autocomplete'

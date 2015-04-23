@@ -39,10 +39,10 @@ class PostsController < ApplicationController
 
   def like
     post = Post.find_by(slug: params[:post_id])
-    if post.users.include?(current_user)
-      post.users.delete(current_user)
+    if post.likers.include?(current_user)
+      post.likers.delete(current_user)
     else
-      post.users << current_user
+      post.likers.push(current_user)
     end
 
     respond_to do |format|

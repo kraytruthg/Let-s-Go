@@ -1,6 +1,6 @@
-$('#likes_count_<%= object.slug%>').html('<%= object.users.size %>');
+$('#likes_count_<%= object.slug%>').html('<%= object.likers.size %>');
 
-<% if object.users.include?(current_user) %>
+<% if object.likers.include?(current_user) %>
   $('#like_<%= object.slug%>').html('Unlike');
 <% else %>
   $('#like_<%= object.slug%>').html('<span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Like');
