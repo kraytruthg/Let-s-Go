@@ -7,7 +7,7 @@ gem 'coffee-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'masonry-rails', '~> 0.2.1'
 gem 'bcrypt-ruby', '3.1.2'
-
+gem 'public_activity'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

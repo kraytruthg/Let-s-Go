@@ -8,20 +8,15 @@ Rails.application.routes.draw do
   get    '/tags',     to: 'tags#index'
 
   resources :trips, except: [:destroy] do
-    resources :posts, except: [:destroy, :index] do
+    resources :posts, except: [:index] do
       resources :comments, only: [:create]
 
       get 'star', to: 'posts#star'
       get 'like', to: 'posts#like'
     end
+
+    get 'activities', to: 'activities#index'
   end
 
-  resource :user
-
-  resources :users, only: [:show, :create, :edit, :update] do
-    collection do
-      get 'autocomplete'
-    end
-  end
-
+  resources :users, only: [:show, :create, :edit, :update]
 end

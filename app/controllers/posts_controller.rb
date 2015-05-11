@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_trip
   before_action :require_login_as_trip_member
-  before_action :set_post, only:[:edit, :update, :show]
+  before_action :set_post, only:[:edit, :update, :show, :destroy]
   before_action :set_tag_autocomplete, only:[:new, :edit]
   before_action :require_creator, only:[:edit, :update]
 
@@ -18,6 +18,8 @@ class PostsController < ApplicationController
     if @post.save
       @post.tag_ids = []
       @trip.tag(@post, with: params[:post][:tag_list], on: :tags)
+
+      @post.create_activity :create, owner: current_user
       flash[:notice] = 'Your post was added'
       redirect_to @trip
     else
@@ -41,7 +43,10 @@ class PostsController < ApplicationController
     post = Post.find_by(slug: params[:post_id])
     if post.likers.include?(current_user)
       post.likers.delete(current_user)
+
+      post.create_activity :unlike, owner: current_user
     else
+      post.create_activity :like, owner: current_user
       post.likers.push(current_user)
     end
 
@@ -58,6 +63,7 @@ class PostsController < ApplicationController
     if @post.save
       @post.tag_list = []
       @trip.tag(@post, with: params[:post][:tag_list], on: :tags)
+      @post.create_activity :update, owner: current_user
       flash[:notice] = "Post was updated"
       redirect_to trip_post_path(@trip, @post)
     else
@@ -67,6 +73,13 @@ class PostsController < ApplicationController
 
   def show
     @comment = Comment.new
+  end
+
+  def destroy
+    @post.create_activity :destroy, owner: current_user
+    @post.delete
+    flash[:notice] = "Post was deleted"
+    redirect_to @trip
   end
 
   private

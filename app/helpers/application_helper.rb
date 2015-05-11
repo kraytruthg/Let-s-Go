@@ -26,4 +26,8 @@ module ApplicationHelper
       trip_post_path(trip,post)
     end
   end
+
+  def show_trip_member_list(trip)
+    trip.users.map(&:username).join(', ')
+  end
 end

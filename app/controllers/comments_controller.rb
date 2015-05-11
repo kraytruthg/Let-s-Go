@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
     @comment.creator = current_user
 
     if @comment.save
+      @comment.create_activity :create, owner: current_user
       flash[:notice] = 'Your comment was added'
       redirect_to trip_post_path(@trip, @post)
     else

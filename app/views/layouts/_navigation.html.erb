@@ -14,6 +14,7 @@
           <% end %>
         </li>
         <%= render 'layouts/select_date', trip: @trip %>
+        <li><%= link_to 'Activities', trip_activities_path(@trip) %></li>
       <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right">

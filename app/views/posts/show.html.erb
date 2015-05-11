@@ -1,11 +1,16 @@
-<p class="pull-right">
-  <% if current_user == @post.creator %>
+<% if current_user == @post.creator %>
+  <p class="pull-right">
     <%= link_to edit_trip_post_path(@trip, @post) do %>
       <i class="glyphicon glyphicon-pencil"></i>
       Edit This Post
     <% end %>
-  <% end %>
-</p>
+     |
+    <%= link_to trip_post_path(@trip, @post), method: :delete, data: { confirm: "You sure?" } do %>
+      <i class="glyphicon glyphicon-trash"></i>
+      Delete This Post
+    <% end %>
+  </p>
+<% end %>
 <%= render 'shared/content_title', title: @post.title %>
 <%= render 'shared/tags', tags: @post.tags, trip: @trip %>
 <hr/>

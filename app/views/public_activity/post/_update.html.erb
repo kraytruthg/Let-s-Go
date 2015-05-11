@@ -1,0 +1,9 @@
+<p>
+  <%= time_ago_in_words(activity.created_at) %> ago, <%= link_to activity.owner.username, activity.owner %> updated post
+
+  <% if activity.trackable %>
+    <%= link_to activity.trackable.title, trip_post_path(@trip, activity.trackable) %>
+  <% else %>
+    and since deleted.
+  <% end %>
+</p>

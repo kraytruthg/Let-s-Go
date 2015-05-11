@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
   include Sluggable
+  include PublicActivity::Common
   acts_as_taggable_on :tags
   belongs_to :creator, foreign_key: 'user_id', class_name: 'User'
   belongs_to :trip
