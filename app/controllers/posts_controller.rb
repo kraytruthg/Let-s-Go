@@ -19,7 +19,7 @@ class PostsController < ApplicationController
       @post.tag_ids = []
       @trip.tag(@post, with: params[:post][:tag_list], on: :tags)
 
-      @post.create_activity :create, owner: current_user
+      @post.create_activity :create, owner: current_user, recipient: @trip
       flash[:notice] = 'Your post was added'
       redirect_to @trip
     else
@@ -44,9 +44,9 @@ class PostsController < ApplicationController
     if post.likers.include?(current_user)
       post.likers.delete(current_user)
 
-      post.create_activity :unlike, owner: current_user
+      post.create_activity :unlike, owner: current_user, recipient: @trip
     else
-      post.create_activity :like, owner: current_user
+      post.create_activity :like, owner: current_user, recipient: @trip
       post.likers.push(current_user)
     end
 
@@ -63,7 +63,7 @@ class PostsController < ApplicationController
     if @post.save
       @post.tag_list = []
       @trip.tag(@post, with: params[:post][:tag_list], on: :tags)
-      @post.create_activity :update, owner: current_user
+      @post.create_activity :update, owner: current_user, recipient: @trip
       flash[:notice] = "Post was updated"
       redirect_to trip_post_path(@trip, @post)
     else
@@ -76,7 +76,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.create_activity :destroy, owner: current_user
+    @post.create_activity :destroy, owner: current_user, recipient: @trip
     @post.delete
     flash[:notice] = "Post was deleted"
     redirect_to @trip
